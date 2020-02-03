@@ -1,0 +1,2 @@
+project-name: quote-frontend
+stack: docker.io/appsody/nodejs-express:0.2

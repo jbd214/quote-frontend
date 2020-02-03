@@ -1,0 +1,48 @@
+apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  annotations:
+    image.opencontainers.org/created: "2020-02-03T10:47:10-05:00"
+    stack.appsody.dev/configured: docker.io/appsody/nodejs-express:0.2
+    stack.appsody.dev/created: 2019-11-22T09:54:22+0000
+    stack.appsody.dev/revision: 676a405baed71b4532532322cc245b49291de886
+    stack.appsody.dev/tag: appsody/nodejs-express:0.2.10
+  creationTimestamp: null
+  labels:
+    image.opencontainers.org/title: quote-frontend
+    stack.appsody.dev/version: 0.2.10
+  name: quote-frontend
+  namespace: insurance-quote
+spec:
+  applicationImage: docker.io/jbd214/quote-frontend:1
+  createKnativeService: false
+  env:
+  - name: BACKEND_URL
+    value: http://quote-backend-insurance-quote.apps.cp4apps-jd.cpolab.local/quote
+  expose: true
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /live
+      port: 3000
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  monitoring:
+    labels:
+      k8s-app: quote-frontend
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /ready
+      port: 3000
+    initialDelaySeconds: 5
+    periodSeconds: 2
+    timeoutSeconds: 1
+  service:
+    annotations:
+      prometheus.io/scrape: "true"
+    port: 3000
+    type: NodePort
+  stack: nodejs-express
+  version: 1.0.0
+status: {}
